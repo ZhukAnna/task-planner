@@ -177,6 +177,7 @@ body {
   padding: 10px 20px;
   box-sizing: border-box;
   background: var(--light-bg-color);
+  overflow: hidden;
 }
 
 .backlog_search {
@@ -189,6 +190,17 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  height: 100%;
+  overflow: auto;
+}
+
+.backlog_task-list::-webkit-scrollbar {
+  width: 10px;
+  background-color: #232d4a;
+}
+.backlog_task-list::-webkit-scrollbar-thumb {
+  width: 10px;
+  background: #181f33;
 }
 
 .backlog_task {
@@ -196,6 +208,7 @@ body {
   align-items: center;
   justify-content: center;
   height: 40px;
+  padding: 12px;
   background: var(--main-bg-color);
   cursor: grab;
 }
