@@ -1,5 +1,205 @@
+:root {
+  --main-bg-color: #181f33;
+  --dark-bg-color: #0d111c;
+  --light-bg-color: #283456;
+  --hover-bg-color: #232d4a;
+  --text-color: #f4f4f4;
+  --primary-color: #0c8aef;
+  --green-color: #07e092;
+  --red-color: #fd6579;
+  --orange-color: #f6a259;
+}
+
 body {
-  color: #fff;
-  background-color: #1e263e;
+  color: #f4f4f4;
+  background-color: var(--main-bg-color);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 300px 1fr 360px;
+}
+.header_title {
+  padding: 0 20px;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 300px 1fr 360px;
+}
+
+.text-input {
+  height: 32px;
+  padding: 0 10px;
+  background: var(--hover-bg-color);
+  color: #0c8aef;
+  border: none;
+  border-radius: 6px;
+}
+
+.text-input:focus {
+  outline: 1px solid #0c8aef;
+}
+
+.btn {
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn:focus {
+  outline: 1px solid #0c8aef;
+}
+
+.btn--outline {
+  box-sizing: border-box;
+  background: #283456;
+  color: #0c8aef;
+}
+
+.btn--outline:hover {
+  background: #0c8aef;
+  color: #0d111c;
+}
+
+/* TIMELINE */
+
+.timeline {
+  display: grid;
+  grid-template-columns: 50px repeat(7, 1fr) 50px;
+}
+
+.timeline_btn {
+  background: none;
+  color: var(--primary-color);
+  border: none;
+  cursor: pointer;
+}
+.timeline_btn:hover {
+  background: var(--dark-bg-color);
+}
+
+.timeline_btn:hover svg path {
+  stroke: #f4f4f4;
+  stroke-width: 2;
+}
+
+.timeline_item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timeline_item:hover {
+  background: var(--hover-bg-color);
+}
+
+.timeline_item--today {
+  color: var(--primary-color);
+  background: var(--light-bg-color);
+}
+
+/* USERS */
+
+.users {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.users_item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  background: var(--light-bg-color);
+}
+
+.users_item:hover {
+  background: var(--hover-bg-color);
+}
+
+/* CELLS */
+
+.cells {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: 10px;
+  padding: 0 50px;
+}
+
+.cells_item {
+  box-sizing: border-box;
+  border-right: 1px solid var(--hover-bg-color);
+  background: #131827;
+}
+
+.cells_item:hover {
+  background: var(--hover-bg-color);
+}
+
+.cells_item--current {
+  background: var(--light-bg-color);
+}
+
+/* TASK */
+
+.task {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  background: var(--primary-color);
+}
+
+.task--done {
+  background: var(--green-color);
+}
+
+.task--inprocess {
+  background: var(--orange-color);
+}
+
+.task--urgent {
+  background: var(--red-color);
+}
+
+/* BACKLOG */
+
+.backlog {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 360px;
+  height: 100vh;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  background: var(--light-bg-color);
+}
+
+.backlog_search {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+
+.backlog_task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.backlog_task {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  background: var(--main-bg-color);
+  cursor: grab;
+}
+
+.backlog_task:hover {
+  background: var(--hover-bg-color);
 }

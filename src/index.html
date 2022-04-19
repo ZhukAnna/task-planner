@@ -8,6 +8,102 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <h1>Task Planner</h1>
+    <header class="header">
+      <h1 class="header_title">Task Planner</h1>
+      <div class="timeline">
+        <button class="timeline_btn">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10.5 3L5.5 8L10.5 13"
+              stroke="#0c8aef"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+        <div class="timeline_item">16.04</div>
+        <div class="timeline_item">17.04</div>
+        <div class="timeline_item">18.04</div>
+        <div class="timeline_item timeline_item--today">19.04</div>
+        <div class="timeline_item">20.04</div>
+        <div class="timeline_item">21.04</div>
+        <div class="timeline_item">22.04</div>
+        <button class="timeline_btn">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M5.5 13L10.5 8L5.5 3"
+              stroke="#0c8aef"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+      </div>
+    </header>
+    <main class="main">
+      <div class="users">
+        <div class="users_item">Быстров Евгений</div>
+        <div class="users_item">Потапенко Альберт</div>
+        <div class="users_item">Добрый Евгений</div>
+        <div class="users_item">Быстров Влад</div>
+      </div>
+      <div class="cells">
+        <div class="cells_item"></div>
+        <div class="cells_item"></div>
+        <div class="cells_item"><div class="task task--done">Задача 1</div></div>
+        <div class="cells_item cells_item--current"></div>
+        <div class="cells_item"><div class="task task--urgent">Задача 4</div></div>
+        <div class="cells_item"></div>
+        <div class="cells_item"></div>
+
+        <div class="cells_item"></div>
+        <div class="cells_item"></div>
+        <div class="cells_item"></div>
+        <div class="cells_item cells_item--current"><div class="task">Задача 2</div></div>
+        <div class="cells_item"></div>
+        <div class="cells_item"></div>
+        <div class="cells_item"></div>
+
+        <div class="cells_item"></div>
+        <div class="cells_item"></div>
+        <div class="cells_item"></div>
+        <div class="cells_item cells_item--current"><div class="task task--inprocess">Задача 3</div></div>
+        <div class="cells_item"></div>
+        <div class="cells_item"></div>
+        <div class="cells_item"></div>
+
+        <div class="cells_item"></div>
+        <div class="cells_item"></div>
+        <div class="cells_item"></div>
+        <div class="cells_item cells_item--current"></div>
+        <div class="cells_item"></div>
+        <div class="cells_item"><div class="task">Задача 5</div></div>
+        <div class="cells_item"></div>
+      </div>
+    </main>
+    <aside class="backlog">
+      <h3>Backlog</h3>
+      <form class="backlog_search">
+        <input class="text-input" type="text" name="serach" id="search" />
+        <button class="btn btn--outline" type="button">Search</button>
+      </form>
+      <div class="backlog_task-list">
+        <div class="backlog_task">Проектирование</div>
+        <div class="backlog_task">Разработка</div>
+        <div class="backlog_task">Тестирование</div>
+      </div>
+    </aside>
   </body>
 </html>
