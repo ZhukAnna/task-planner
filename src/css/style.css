@@ -25,8 +25,19 @@ body {
 }
 
 .main {
+  height: calc(100vh - 80px);
+  overflow: hidden;
+}
+
+.main_wrapper {
   display: grid;
   grid-template-columns: 300px 1fr 360px;
+  height: 100%;
+  overflow: auto;
+}
+
+.main_wrapper::-webkit-scrollbar {
+  width: 0;
 }
 
 .text-input {
@@ -114,6 +125,7 @@ body {
   align-items: center;
   justify-content: center;
   height: 40px;
+  padding: 11px;
   background: var(--light-bg-color);
 }
 
