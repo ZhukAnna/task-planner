@@ -79,7 +79,7 @@ body {
 
 .timeline {
   display: grid;
-  grid-template-columns: 50px repeat(7, 1fr) 50px;
+  grid-template-columns: 50px 1fr 50px;
 }
 
 .timeline_btn {
@@ -95,6 +95,11 @@ body {
 .timeline_btn:hover svg path {
   stroke: #f4f4f4;
   stroke-width: 2;
+}
+
+.timeline_wrapper {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
 }
 
 .timeline_item {

@@ -3,3 +3,4 @@ import './css/style.css';
 
 import './modules/backlog.js';
 import './modules/users.js';
+import './modules/timeline.js';

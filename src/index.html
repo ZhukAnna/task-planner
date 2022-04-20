@@ -11,7 +11,7 @@
     <header class="header">
       <h1 class="header_title">Task Planner</h1>
       <div class="timeline">
-        <button class="timeline_btn">
+        <button class="timeline_btn timeline_btn--prev">
           <svg
             width="16"
             height="16"
@@ -27,14 +27,10 @@
             />
           </svg>
         </button>
-        <div class="timeline_item">16.04</div>
-        <div class="timeline_item">17.04</div>
-        <div class="timeline_item">18.04</div>
-        <div class="timeline_item timeline_item--today">19.04</div>
-        <div class="timeline_item">20.04</div>
-        <div class="timeline_item">21.04</div>
-        <div class="timeline_item">22.04</div>
-        <button class="timeline_btn">
+        
+        <div class="timeline_wrapper"></div>
+
+        <button class="timeline_btn timeline_btn--next">
           <svg
             width="16"
             height="16"
@@ -54,8 +50,7 @@
     </header>
     <main class="main">
       <div class="main_wrapper">
-        <div class="users">
-        </div>
+        <div class="users"></div>
         <div class="cells">
           <!--           <div class="cells_item"></div>
           <div class="cells_item"></div>
