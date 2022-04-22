@@ -129,7 +129,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 40px;
+  height: 90px;
+  box-sizing: border-box;
   padding: 11px;
   background: var(--light-bg-color);
 }
@@ -148,7 +149,12 @@ body {
 }
 
 .cells_item {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1px;
+  height: 90px;
   box-sizing: border-box;
+  padding: 4px;
   border-right: 1px solid var(--hover-bg-color);
   background: #131827;
 }
@@ -161,26 +167,8 @@ body {
   background: var(--light-bg-color);
 }
 
-/* TASK */
-
-.task {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
-  background: var(--primary-color);
-}
-
-.task--done {
-  background: var(--green-color);
-}
-
-.task--inprocess {
-  background: var(--orange-color);
-}
-
-.task--urgent {
-  background: var(--red-color);
+.cells_item--target {
+  border: 1px solid #0c8aef;
 }
 
 /* BACKLOG */
@@ -224,7 +212,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 40px;
   padding: 12px;
   background: var(--main-bg-color);
   cursor: grab;
@@ -232,4 +219,39 @@ body {
 
 .backlog_task:hover {
   background: var(--hover-bg-color);
+}
+
+/* TASK */
+
+.task {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 6px;
+  font-size: 12px;
+  background: var(--primary-color);
+}
+
+.task:hover {
+  color: var(--primary-color);
+  background: var(--main-bg-color);
+  border: 1px solid var(--primary-color);
+  cursor: pointer;
+}
+
+.task--done {
+  background: var(--green-color);
+}
+
+.task--inprocess {
+  background: var(--orange-color);
+}
+
+.task--urgent {
+  background: var(--red-color);
+}
+
+.task--failed {
+  background: #e7e7e7;
 }

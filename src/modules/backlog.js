@@ -1,4 +1,4 @@
-export async function getTasks() {
+async function getTasks() {
   const response = await fetch(
     'https://varankin_dev.elma365.ru/api/extensions/2a38760e-083a-4dd0-aebc-78b570bfd3c7/script/tasks'
   );
@@ -14,13 +14,4 @@ getTasks().catch((err) => {
   console.log(err.message);
 });
 
-const backlogContainer = document.querySelector('.backlog_task-list');
-
-getTasks().then((tasks) => {
-  tasks.map((item) => {
-    let task = document.createElement('div');
-    task.classList.add('backlog_task');
-    task.innerText = item.subject;
-    backlogContainer.append(task);
-  });
-});
+export default getTasks;
