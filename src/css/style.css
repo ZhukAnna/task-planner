@@ -3,6 +3,7 @@
   --dark-bg-color: #0d111c;
   --light-bg-color: #283456;
   --hover-bg-color: #232d4a;
+  --cell-color: #131827;
   --text-color: #f4f4f4;
   --primary-color: #0c8aef;
   --green-color: #07e092;
@@ -11,7 +12,7 @@
 }
 
 body {
-  color: #f4f4f4;
+  color: var(--text-color);
   background-color: var(--main-bg-color);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
@@ -44,13 +45,13 @@ body {
   height: 32px;
   padding: 0 10px;
   background: var(--hover-bg-color);
-  color: #0c8aef;
+  color: var(--primary-color);
   border: none;
   border-radius: 6px;
 }
 
 .text-input:focus {
-  outline: 1px solid #0c8aef;
+  outline: 1px solid var(--primary-color);
 }
 
 .btn {
@@ -61,17 +62,17 @@ body {
 }
 
 .btn:focus {
-  outline: 1px solid #0c8aef;
+  outline: 1px solid var(--primary-color);
 }
 
 .btn--outline {
   box-sizing: border-box;
-  background: #283456;
-  color: #0c8aef;
+  background: var(--light-bg-color);
+  color: var(--primary-color);
 }
 
 .btn--outline:hover {
-  background: #0c8aef;
+  background: var(--primary-color);
   color: #0d111c;
 }
 
@@ -93,7 +94,7 @@ body {
 }
 
 .timeline_btn:hover svg path {
-  stroke: #f4f4f4;
+  stroke: var(--text-color);
   stroke-width: 2;
 }
 
@@ -129,8 +130,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 90px;
   box-sizing: border-box;
+  height: 90px;
   padding: 11px;
   background: var(--light-bg-color);
 }
@@ -156,7 +157,8 @@ body {
   box-sizing: border-box;
   padding: 4px;
   border-right: 1px solid var(--hover-bg-color);
-  background: #131827;
+  background: var(--cell-color);
+  word-break: break-word;
 }
 
 .cells_item:hover {
@@ -168,7 +170,7 @@ body {
 }
 
 .cells_item--target {
-  border: 1px solid #0c8aef;
+  border: 1px solid var(--primary-color);
 }
 
 /* BACKLOG */
@@ -201,17 +203,18 @@ body {
 
 .backlog_task-list::-webkit-scrollbar {
   width: 10px;
-  background-color: #232d4a;
+  background-color: var(--light-bg-color);
 }
 .backlog_task-list::-webkit-scrollbar-thumb {
   width: 10px;
-  background: #181f33;
+  background: var(--hover-bg-color);
 }
 
 .backlog_task {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   padding: 12px;
   background: var(--main-bg-color);
   cursor: grab;
@@ -219,6 +222,43 @@ body {
 
 .backlog_task:hover {
   background: var(--hover-bg-color);
+}
+
+.backlog_task::before,
+.backlog_task::after {
+  display: none;
+  content: '';
+  opacity: 0;
+}
+
+.backlog_task:hover::after /* .tooltip */ {
+  content: attr(data-start);
+  position: absolute;
+  top: 40px;
+  width: 200px;
+  height: 100px;
+  z-index: 50;
+  color: var(--text-color);
+  background: var(--main-bg-color);
+  border: 1px solid var(--light-bg-color);
+  opacity: 1;
+  transition: all 0.3s ease 1s;
+}
+
+.backlog_task:hover::before {
+  content: '';
+  position: absolute;
+  top: 32px;
+  z-index: 55;
+  transform: translateY(-50%);
+  border: 10px solid var(--main-bg-color);
+  border-color: transparent transparent var(--main-bg-color) transparent;
+  opacity: 1;
+  transition: opacity 0.3s ease 1s;
+}
+
+.backlog_task--selected {
+  opacity: 0.5;
 }
 
 /* TASK */
@@ -253,5 +293,40 @@ body {
 }
 
 .task--failed {
+  color: #adadad;
   background: #e7e7e7;
+}
+
+/* PRELOADER */
+
+.preloader {
+  min-height: 42px;
+  background-color: var(--main-bg-color);
+}
+
+@keyframes preloaderAnimation {
+  0% {
+    background-position: -500px 0;
+  }
+  100% {
+    background-position: 500px 0;
+  }
+}
+
+.animated-background {
+  animation-duration: 1.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: preloaderAnimation;
+  animation-timing-function: linear;
+  background: var(--hover-bg-color);
+  background: linear-gradient(
+    to right,
+    var(--main-bg-color) 0%,
+    var(--hover-bg-color) 16%,
+    var(--main-bg-color) 33%
+  );
+  background-size: 1000px 80px;
+  height: 42px;
+  position: relative;
 }
