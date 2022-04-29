@@ -1,12 +1,16 @@
 import './css/normalize.css';
 import './css/style.css';
 
-import getTasks from './modules/backlog.js';
 import './modules/users.js';
 import './modules/timeline.js';
+import getTasks from './modules/backlog.js';
 import dnd from './modules/dnd.js';
+import { setWeek } from './modules/timeline.js';
+import { createCell } from './modules/users.js';
 
 const backlogContainer = document.querySelector('.backlog_task-list');
+const prevBtn = document.querySelector('.timeline_btn--prev');
+const nextBtn = document.querySelector('.timeline_btn--next');
 
 const preloader = document.createElement('div');
 preloader.classList.add('preloader');
@@ -28,10 +32,27 @@ getTasks()
       if (item.executor) {
         task.classList.add('task');
         document.querySelector(`.cells_item[data-user='${item.executor}']`).append(task);
+        //добавить размещение на несколько дат
       } else {
         backlogContainer.append(task);
-        //добавить размещение на несколько дат
       }
     });
   })
   .then(() => dnd());
+
+prevBtn.addEventListener('click', () => {
+  setWeek(-7);
+  const users = document.querySelectorAll('.users_item');
+  document.querySelector('.cells').innerHTML = '';
+  for (let i = 0; i < users.length; i++) {
+    createCell(users[i].getAttribute('data-user'));
+  }
+});
+nextBtn.addEventListener('click', () => {
+  setWeek(7);
+  const users = document.querySelectorAll('.users_item');
+  document.querySelector('.cells').innerHTML = '';
+  for (let i = 0; i < users.length; i++) {
+    createCell(users[i].getAttribute('data-user'));
+  }
+});

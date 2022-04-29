@@ -1,3 +1,4 @@
+import { setWeek } from './timeline';
 export async function getUsers() {
   const response = await fetch(
     'https://varankin_dev.elma365.ru/api/extensions/2a38760e-083a-4dd0-aebc-78b570bfd3c7/script/users'
@@ -18,23 +19,23 @@ const userList = document.querySelector('.users');
 const cells = document.querySelector('.cells');
 
 getUsers().then((users) => {
-  users.map((item) => {
-    let user = document.createElement('div');
-    user.classList.add('users_item');
-    user.innerText = `${item.surname} ${item.firstName} ${item.secondName}`;
-    userList.append(user);
+  users.map((user) => {
+    let userDiv = document.createElement('div');
+    userDiv.classList.add('users_item');
+    userDiv.setAttribute('data-user', user.id);
+    userDiv.innerText = `${user.surname} ${user.firstName} ${user.secondName}`;
+    userList.append(userDiv);
+    createCell(user.id);
   });
-
-  repeat(createCell, users.length * 7);
 });
 
-function repeat(func, times) {
-  func();
-  times && --times && repeat(func, times);
-}
-
-function createCell() {
-  let cell = document.createElement('div');
-  cell.classList.add('cells_item');
-  cells.append(cell);
+export function createCell(id) {
+  const week = setWeek();
+  for (let i = 0; i < 7; i++) {
+    let cell = document.createElement('div');
+    cell.classList.add('cells_item');
+    cell.setAttribute('data-user', id);
+    cell.setAttribute('data-date', week[i]);
+    cells.append(cell);
+  }
 }
