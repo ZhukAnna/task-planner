@@ -29,10 +29,10 @@ export function dragDrop(e) {
   currentTask.classList.add('task');
   if (e.target.classList.contains('cells_item')) {
     const target = e.target;
-    target.append(currentTask); // переносить несколько в зависимости от длительности задачи
+    insertMultipleTasks(target, currentTask, false);
   } else if (e.target.classList.contains('task')) {
-    const target =e.target.parentElement;
-    target.append(currentTask); // переносить несколько в зависимости от длительности задачи
+    const target = e.target.parentElement;
+    insertMultipleTasks(target, currentTask, false);
   } else {
     const currentUser = e.target.getAttribute('data-user');
     const target = document.querySelectorAll(`.cells_item[data-user='${currentUser}']`);
@@ -40,16 +40,26 @@ export function dragDrop(e) {
   }
 }
 
-export function insertMultipleTasks(target, task) {
+export function insertMultipleTasks(target, task, onUser = true) {
+  let startDate = Date.parse(task.getAttribute('data-start'));
+  let endDate = Date.parse(task.getAttribute('data-end'));
+  const duration = endDate - startDate;
+  console.log(duration);
+  if (!onUser) {
+    startDate = Date.parse(
+      target.getAttribute('data-date').replace(/(\d+)\.(\d+)\.(\d+)/g, '$3-$2-$1')
+    );
+    endDate = startDate + duration;
+    target = document.querySelectorAll(
+      `.cells_item[data-user='${target.getAttribute('data-user')}']`
+    );
+  }
   target.forEach((cell) => {
     const dateFromAttr = Date.parse(
       cell.getAttribute('data-date').replace(/(\d+)\.(\d+)\.(\d+)/g, '$3-$2-$1')
     );
-    if (
-      dateFromAttr >= Date.parse(task.getAttribute('data-start')) &&
-      dateFromAttr <= Date.parse(task.getAttribute('data-end'))
-    ) {
-      const taskClone = task.cloneNode(true); 
+    if (dateFromAttr >= startDate && dateFromAttr <= endDate) {
+      const taskClone = task.cloneNode(true);
       taskClone.classList.remove('backlog_task--selected');
       taskClone.draggable = false;
       cell.append(taskClone);
