@@ -30,7 +30,12 @@ getTasks().then((tasks) => {
     let task = document.createElement('div');
     task.classList.add('backlog_task');
     task.draggable = true;
-    task.innerText = item.subject;
+    task.innerHTML = `
+    ${item.subject}
+    <div class="tooltip">
+      <p>Дата начала: <span>${item.planStartDate}</span></p>
+      <p>Дата окончания: <span>${item.planEndDate}</span></p>
+    </div>`;
     task.setAttribute('data-start', item.planStartDate);
     task.setAttribute('data-end', item.planEndDate);
     task.addEventListener('dragstart', dragStart);

@@ -19,10 +19,19 @@ body {
 
 .header {
   display: grid;
-  grid-template-columns: 300px 1fr 360px;
+  grid-template-columns: 15% 1fr 20%;
+  height: 80px;
+}
+@media (max-width: 992px) {
+  .header {
+    grid-template-columns: 20% 1fr;
+  }
 }
 .header_title {
+  display: flex;
+  align-items: center;
   padding: 0 20px;
+  font-size: 1.2em;
 }
 
 .main {
@@ -32,9 +41,14 @@ body {
 
 .main_wrapper {
   display: grid;
-  grid-template-columns: 300px 1fr 360px;
+  grid-template-columns: 15% 1fr 20%;
   height: 100%;
   overflow: auto;
+}
+@media (max-width: 992px) {
+  .main_wrapper {
+    grid-template-columns: 20% 1fr;
+  }
 }
 
 .main_wrapper::-webkit-scrollbar {
@@ -43,6 +57,7 @@ body {
 
 .text-input {
   height: 32px;
+  width: 100%;
   padding: 0 10px;
   background: var(--hover-bg-color);
   color: var(--primary-color);
@@ -179,12 +194,17 @@ body {
   position: absolute;
   top: 0;
   right: 0;
-  width: 360px;
+  width: 20%;
   height: 100vh;
   padding: 10px 20px;
   box-sizing: border-box;
   background: var(--light-bg-color);
   overflow: hidden;
+}
+@media (max-width: 992px) {
+  .backlog {
+    display: none;
+  }
 }
 
 .backlog_search {
@@ -224,37 +244,44 @@ body {
   background: var(--hover-bg-color);
 }
 
-.backlog_task::before,
-.backlog_task::after {
+.tooltip {
   display: none;
-  content: '';
-  opacity: 0;
-}
-
-.backlog_task:hover::after /* .tooltip */ {
-  content: attr(data-start);
   position: absolute;
-  top: 40px;
+  top: 35px;
   width: 200px;
-  height: 100px;
-  z-index: 50;
+  padding: 0 5px;
   color: var(--text-color);
   background: var(--main-bg-color);
+  font-size: 11px;
   border: 1px solid var(--light-bg-color);
-  opacity: 1;
-  transition: all 0.3s ease 1s;
+  opacity: 0;
+  z-index: 50;
 }
-
-.backlog_task:hover::before {
+.tooltip::before {
   content: '';
   position: absolute;
-  top: 32px;
-  z-index: 55;
+  top: -10px;
+  left: 100px;
   transform: translateY(-50%);
   border: 10px solid var(--main-bg-color);
   border-color: transparent transparent var(--main-bg-color) transparent;
+  opacity: 0;
+  z-index: 55;
+}
+.backlog_task:hover .tooltip {
+  display: block;
   opacity: 1;
   transition: opacity 0.3s ease 1s;
+}
+
+.tooltip::before {
+  content: '';
+  opacity: 1;
+  transition: opacity 0.3s ease 1s;
+}
+
+.backlog_task:hover.backlog_task--selected .tooltip {
+  display: none;
 }
 
 .backlog_task--selected {
