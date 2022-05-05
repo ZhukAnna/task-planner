@@ -1,3 +1,13 @@
+import { dragStart, dragEnd, insertMultipleTasks } from './dnd.js';
+
+const backlogContainer = document.querySelector('.backlog_task-list');
+const preloader = document.createElement('div');
+preloader.classList.add('preloader');
+preloader.innerHTML = '<div class="animated-background"></div>';
+for (let i = 1; i < 15; i++) {
+  backlogContainer.append(preloader.cloneNode(true));
+}
+
 async function getTasks() {
   const response = await fetch(
     'https://varankin_dev.elma365.ru/api/extensions/2a38760e-083a-4dd0-aebc-78b570bfd3c7/script/tasks'
@@ -12,6 +22,27 @@ async function getTasks() {
 }
 getTasks().catch((err) => {
   console.log(err.message);
+});
+
+getTasks().then((tasks) => {
+  backlogContainer.innerHTML = '';
+  return tasks.map((item) => {
+    let task = document.createElement('div');
+    task.classList.add('backlog_task');
+    task.draggable = true;
+    task.innerText = item.subject;
+    task.setAttribute('data-start', item.planStartDate);
+    task.setAttribute('data-end', item.planEndDate);
+    task.addEventListener('dragstart', dragStart);
+    task.addEventListener('dragend', dragEnd);
+    if (item.executor) {
+      task.classList.add('task');
+      const target = document.querySelectorAll(`.cells_item[data-user='${item.executor}']`);
+      insertMultipleTasks(target, task);
+    } else {
+      backlogContainer.append(task);
+    }
+  });
 });
 
 export default getTasks;
