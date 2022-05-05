@@ -1,55 +1,59 @@
-const dnd = () => {
-  console.log('hi');
-  const tasks = document.querySelectorAll('.backlog_task');
-  const cells = document.querySelectorAll('.cells_item');
-  const users = document.querySelectorAll('.users_item');
-  let currentTask = null;
+let currentTask = null;
 
-  tasks.forEach((task) => task.addEventListener('dragstart', dragStart));
-  tasks.forEach((task) => task.addEventListener('dragend', dragEnd));
+export function dragStart(e) {
+  e.target.classList.add('backlog_task--selected');
+  console.log(e.target);
+  return (currentTask = e.target);
+}
 
-  cells.forEach((item) => {
-    item.addEventListener('dragover', dragOver);
-    item.addEventListener('dragenter', dragEnter);
-    item.addEventListener('dragleave', dragLeave);
-    item.addEventListener('drop', dragDrop);
-  });
+export function dragEnd(e) {
+  e.target.classList.remove('backlog_task--selected');
+}
 
-  /*   users.forEach((item) => {
-    item.addEventListener('dragover', dragOver);
-    item.addEventListener('dragenter', dragEnter);
-    item.addEventListener('dragleave', dragLeave);
-    item.addEventListener('drop', dragDrop);
-  }); */
+export function dragOver(e) {
+  e.preventDefault();
+}
 
-  function dragStart(e) {
-    console.log(e.target);
-    currentTask = e.target;
-    //e.target.classList.add('task');
-    //setTimeout(() => e.target.classList.add('hide'), 0);
-    return currentTask;
-  }
-  function dragEnd(e) {
-    e.target.classList.add('task');
-    e.target.classList.remove('hold');
-    e.target.classList.remove('hide');
-  }
-  function dragOver(e) {
-    e.preventDefault();
-  }
-
-  function dragEnter(e) {
+export function dragEnter(e) {
+  if (!e.target.classList.contains('task')) {
     e.target.classList.add('cells_item--target');
   }
+}
 
-  function dragLeave(e) {
-    e.target.classList.remove('cells_item--target');
+export function dragLeave(e) {
+  e.target.classList.remove('cells_item--target');
+}
+
+export function dragDrop(e) {
+  e.target.classList.remove('cells_item--target');
+  currentTask.classList.add('task');
+  if (e.target.classList.contains('cells_item')) {
+    const target = e.target;
+    target.append(currentTask); // переносить несколько в зависимости от длительности задачи
+  } else if (e.target.classList.contains('task')) {
+    const target =e.target.parentElement;
+    target.append(currentTask); // переносить несколько в зависимости от длительности задачи
+  } else {
+    const currentUser = e.target.getAttribute('data-user');
+    const target = document.querySelectorAll(`.cells_item[data-user='${currentUser}']`);
+    insertMultipleTasks(target, currentTask);
   }
+}
 
-  function dragDrop(e) {
-    e.target.classList.remove('cells_item--target');
-    e.target.append(currentTask);
-  }
-};
-
-export default dnd;
+export function insertMultipleTasks(target, task) {
+  target.forEach((cell) => {
+    const dateFromAttr = Date.parse(
+      cell.getAttribute('data-date').replace(/(\d+)\.(\d+)\.(\d+)/g, '$3-$2-$1')
+    );
+    if (
+      dateFromAttr >= Date.parse(task.getAttribute('data-start')) &&
+      dateFromAttr <= Date.parse(task.getAttribute('data-end'))
+    ) {
+      const taskClone = task.cloneNode(true); 
+      taskClone.classList.remove('backlog_task--selected');
+      taskClone.draggable = false;
+      cell.append(taskClone);
+      task.remove();
+    }
+  });
+}

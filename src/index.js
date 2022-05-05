@@ -4,7 +4,7 @@ import './css/style.css';
 import './modules/users.js';
 import './modules/timeline.js';
 import getTasks from './modules/backlog.js';
-import dnd from './modules/dnd.js';
+import { dragStart, dragEnd, insertMultipleTasks } from './modules/dnd.js';
 import { setWeek } from './modules/timeline.js';
 import { createCell } from './modules/users.js';
 
@@ -19,26 +19,26 @@ for (let i = 1; i < 15; i++) {
   backlogContainer.append(preloader.cloneNode(true));
 }
 
-getTasks()
-  .then((tasks) => {
-    backlogContainer.innerHTML = '';
-    return tasks.map((item) => {
-      let task = document.createElement('div');
-      task.classList.add('backlog_task');
-      task.draggable = true;
-      task.innerText = item.subject;
-      task.setAttribute('data-start', item.planStartDate);
-      task.setAttribute('data-end', item.planEndDate);
-      if (item.executor) {
-        task.classList.add('task');
-        document.querySelector(`.cells_item[data-user='${item.executor}']`).append(task);
-        //добавить размещение на несколько дат
-      } else {
-        backlogContainer.append(task);
-      }
-    });
-  })
-  .then(() => dnd());
+getTasks().then((tasks) => {
+  backlogContainer.innerHTML = '';
+  return tasks.map((item) => {
+    let task = document.createElement('div');
+    task.classList.add('backlog_task');
+    task.draggable = true;
+    task.innerText = item.subject;
+    task.setAttribute('data-start', item.planStartDate);
+    task.setAttribute('data-end', item.planEndDate);
+    task.addEventListener('dragstart', dragStart);
+    task.addEventListener('dragend', dragEnd);
+    if (item.executor) {
+      task.classList.add('task');
+      const target = document.querySelectorAll(`.cells_item[data-user='${item.executor}']`);
+      insertMultipleTasks(target, task);
+    } else {
+      backlogContainer.append(task);
+    }
+  });
+});
 
 prevBtn.addEventListener('click', () => {
   setWeek(-7);
