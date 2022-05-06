@@ -34,6 +34,18 @@ export function dragDrop(e) {
     insertMultipleTasks(target, currentTask, false);
   } else {
     const currentUser = e.target.getAttribute('data-user');
+    /* add executor to sessionstorage */
+    const tasks = JSON.parse(sessionStorage.getItem('tasks'));
+    const setUser = {
+      id: currentTask.getAttribute('data-id'),
+      executor: currentUser,
+    };
+    Object.assign(
+      tasks.find((item) => item.id == setUser.id),
+      setUser
+    );
+    sessionStorage.setItem('tasks', JSON.stringify(tasks));
+    //
     const target = document.querySelectorAll(`.cells_item[data-user='${currentUser}']`);
     insertMultipleTasks(target, currentTask);
   }
@@ -48,9 +60,35 @@ export function insertMultipleTasks(target, task, onUser = true) {
       target.getAttribute('data-date').replace(/(\d+)\.(\d+)\.(\d+)/g, '$3-$2-$1')
     );
     endDate = startDate + duration;
-    target = document.querySelectorAll(
-      `.cells_item[data-user='${target.getAttribute('data-user')}']`
+    // set new data attributes
+    const planStartDate = new Date(startDate)
+      .toLocaleDateString()
+      .replace(/(\d+)\.(\d+)\.(\d+)/g, '$3-$2-$1');
+    const planEndDate = new Date(endDate)
+      .toLocaleDateString()
+      .replace(/(\d+)\.(\d+)\.(\d+)/g, '$3-$2-$1');
+    task.setAttribute('data-start', planStartDate);
+    task.setAttribute('data-end', planEndDate);
+    task.querySelector('.tooltip').setAttribute('data-start', planStartDate);
+    task.querySelector('.tooltip').setAttribute('data-end', planEndDate);
+    /* add dates and executor to sessionstorage */
+    const executor = target.getAttribute('data-user');
+    const tasks = JSON.parse(sessionStorage.getItem('tasks'));
+    const setData = {
+      id: task.getAttribute('data-id'),
+      executor: executor,
+      planStartDate: planStartDate,
+      planEndDate: planEndDate,
+    };
+    console.log(setData);
+    Object.assign(
+      tasks.find((item) => item.id == setData.id),
+      setData
     );
+    console.log(tasks);
+    sessionStorage.setItem('tasks', JSON.stringify(tasks));
+    //
+    target = document.querySelectorAll(`.cells_item[data-user='${executor}']`);
   }
   target.forEach((cell) => {
     const dateFromAttr = Date.parse(

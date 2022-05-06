@@ -1,13 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Task Planner</title>
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
+    <link rel="stylesheet" href="css/style.css">
+  <script defer="defer" src="bundle.js"></script><link href="style.css" rel="stylesheet"></head>
   <body>
-    <h1>Task Planner</h1>
+    <header class="header">
+      <h1 class="header_title">Task Planner</h1>
+      <div class="timeline">
+        <button class="timeline_btn timeline_btn--prev">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10.5 3L5.5 8L10.5 13" stroke="#0c8aef" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+
+        <div class="timeline_wrapper"></div>
+
+        <button class="timeline_btn timeline_btn--next">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5.5 13L10.5 8L5.5 3" stroke="#0c8aef" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+    <main class="main">
+      <div class="main_wrapper">
+        <div class="users"></div>
+        <div class="cells"></div>
+      </div>
+    </main>
+    <aside class="backlog">
+      <h3>Backlog</h3>
+      <form class="backlog_search">
+        <input class="text-input" type="text" name="serach" id="search">
+        <button class="btn btn--outline" type="button">Search</button>
+      </form>
+      <div class="backlog_task-list"></div>
+    </aside>
+    <div class="theme-switcher">
+      <button class="btn btn-toggle btn-toggle--on" id="switcher">
+        <div class="btn-toggle_circle"></div>
+      </button>
+    </div>
   </body>
 </html>
