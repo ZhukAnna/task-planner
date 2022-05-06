@@ -1,4 +1,5 @@
 import { createCell } from './users.js';
+import { updateTasks } from './backlog.js';
 
 const timeline = document.querySelector('.timeline_wrapper');
 const prevBtn = document.querySelector('.timeline_btn--prev');
@@ -34,17 +35,21 @@ export const setWeek = (n = 0) => {
 
 prevBtn.addEventListener('click', () => {
   setWeek(-7);
+  const tasks = JSON.parse(sessionStorage.getItem('tasks'));
   const users = document.querySelectorAll('.users_item');
   document.querySelector('.cells').innerHTML = '';
   for (let i = 0; i < users.length; i++) {
     createCell(users[i].getAttribute('data-user'));
   }
+  updateTasks(tasks);
 });
 nextBtn.addEventListener('click', () => {
   setWeek(7);
+  const tasks = JSON.parse(sessionStorage.getItem('tasks'));
   const users = document.querySelectorAll('.users_item');
   document.querySelector('.cells').innerHTML = '';
   for (let i = 0; i < users.length; i++) {
     createCell(users[i].getAttribute('data-user'));
   }
+  updateTasks(tasks);
 });

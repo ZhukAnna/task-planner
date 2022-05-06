@@ -18,6 +18,7 @@ async function getTasks() {
   }
 
   const tasks = await response.json();
+  sessionStorage.setItem('tasks', JSON.stringify(tasks));
   return tasks;
 }
 getTasks().catch((err) => {
@@ -25,6 +26,10 @@ getTasks().catch((err) => {
 });
 
 getTasks().then((tasks) => {
+  updateTasks(tasks);
+});
+
+export function updateTasks(tasks) {
   backlogContainer.innerHTML = '';
   return tasks.map((item) => {
     let task = document.createElement('div');
@@ -48,6 +53,4 @@ getTasks().then((tasks) => {
       backlogContainer.append(task);
     }
   });
-});
-
-export default getTasks;
+}
