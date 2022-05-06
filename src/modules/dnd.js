@@ -2,7 +2,6 @@ let currentTask = null;
 
 export function dragStart(e) {
   e.target.classList.add('backlog_task--selected');
-  console.log(e.target);
   return (currentTask = e.target);
 }
 
@@ -44,7 +43,6 @@ export function insertMultipleTasks(target, task, onUser = true) {
   let startDate = Date.parse(task.getAttribute('data-start'));
   let endDate = Date.parse(task.getAttribute('data-end'));
   const duration = endDate - startDate;
-  console.log(duration);
   if (!onUser) {
     startDate = Date.parse(
       target.getAttribute('data-date').replace(/(\d+)\.(\d+)\.(\d+)/g, '$3-$2-$1')
