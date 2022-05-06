@@ -4,3 +4,4 @@ import './css/style.css';
 import './modules/users.js';
 import './modules/timeline.js';
 import './modules/backlog.js';
+import './modules/theme.js';

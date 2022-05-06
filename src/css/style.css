@@ -91,6 +91,41 @@ body {
   color: #0d111c;
 }
 
+.btn-toggle {
+  display: flex;
+  width: 60px;
+  height: 29px;
+  padding: 2px;
+  background-color: var(--hover-bg-color);
+  border-radius: 15px;
+  box-shadow: 0 0 10px 0 var(--dark-bg-color) inset;
+}
+.btn-toggle--on {
+  justify-content: flex-end;
+}
+.btn-toggle--on .btn-toggle_circle {
+  background-color: var(--primary-color);
+}
+.btn-toggle_circle {
+  width: 25px;
+  height: 25px;
+  background-color: #fff;
+  border-radius: 50%;
+  left: 100%;
+}
+
+.theme-switcher {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+
+@media (max-width: 992px) {
+  .theme-switcher {
+    display: none;
+  }
+}
+
 /* TIMELINE */
 
 .timeline {
