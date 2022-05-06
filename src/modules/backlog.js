@@ -37,10 +37,9 @@ export function updateTasks(tasks) {
     task.draggable = true;
     task.innerHTML = `
     ${item.subject}
-    <div class="tooltip">
-      <p>Дата начала: <span>${item.planStartDate}</span></p>
-      <p>Дата окончания: <span>${item.planEndDate}</span></p>
+    <div class="tooltip" data-start="${item.planStartDate}" data-end="${item.planEndDate}">
     </div>`;
+    task.setAttribute('data-id', item.id);
     task.setAttribute('data-start', item.planStartDate);
     task.setAttribute('data-end', item.planEndDate);
     task.addEventListener('dragstart', dragStart);

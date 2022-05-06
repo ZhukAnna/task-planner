@@ -98,7 +98,6 @@ body {
   padding: 2px;
   background-color: var(--hover-bg-color);
   border-radius: 15px;
-  box-shadow: 0 0 10px 0 var(--dark-bg-color) inset;
 }
 .btn-toggle--on {
   justify-content: flex-end;
@@ -283,8 +282,9 @@ body {
   display: none;
   position: absolute;
   top: 35px;
-  width: 200px;
-  padding: 0 5px;
+  width: 165px;
+  height: 30px;
+  padding: 5px;
   color: var(--text-color);
   background: var(--main-bg-color);
   font-size: 11px;
@@ -313,6 +313,12 @@ body {
   content: '';
   opacity: 1;
   transition: opacity 0.3s ease 1s;
+}
+
+.tooltip::after {
+  content: 'дата начала: ' attr(data-start) ' дата окончания: ' attr(data-end);
+  position: absolute;
+  z-index: 55;
 }
 
 .backlog_task:hover.backlog_task--selected .tooltip {
