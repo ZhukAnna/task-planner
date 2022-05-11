@@ -34,6 +34,7 @@ export function dragDrop(e) {
     insertMultipleTasks(target, currentTask, false);
   } else {
     const currentUser = e.target.getAttribute('data-user');
+
     /* add executor to sessionstorage */
     const tasks = JSON.parse(sessionStorage.getItem('tasks'));
     const setUser = {
@@ -45,7 +46,7 @@ export function dragDrop(e) {
       setUser
     );
     sessionStorage.setItem('tasks', JSON.stringify(tasks));
-    //
+
     const target = document.querySelectorAll(`.cells_item[data-user='${currentUser}']`);
     insertMultipleTasks(target, currentTask);
   }
@@ -60,7 +61,8 @@ export function insertMultipleTasks(target, task, onUser = true) {
       target.getAttribute('data-date').replace(/(\d+)\.(\d+)\.(\d+)/g, '$3-$2-$1')
     );
     endDate = startDate + duration;
-    // set new data attributes
+
+    /* set new data attributes */
     const planStartDate = new Date(startDate)
       .toLocaleDateString()
       .replace(/(\d+)\.(\d+)\.(\d+)/g, '$3-$2-$1');
@@ -71,6 +73,7 @@ export function insertMultipleTasks(target, task, onUser = true) {
     task.setAttribute('data-end', planEndDate);
     task.querySelector('.tooltip').setAttribute('data-start', planStartDate);
     task.querySelector('.tooltip').setAttribute('data-end', planEndDate);
+
     /* add dates and executor to sessionstorage */
     const executor = target.getAttribute('data-user');
     const tasks = JSON.parse(sessionStorage.getItem('tasks'));
@@ -80,14 +83,12 @@ export function insertMultipleTasks(target, task, onUser = true) {
       planStartDate: planStartDate,
       planEndDate: planEndDate,
     };
-    console.log(setData);
     Object.assign(
       tasks.find((item) => item.id == setData.id),
       setData
     );
-    console.log(tasks);
     sessionStorage.setItem('tasks', JSON.stringify(tasks));
-    //
+
     target = document.querySelectorAll(`.cells_item[data-user='${executor}']`);
   }
   target.forEach((cell) => {

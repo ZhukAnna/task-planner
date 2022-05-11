@@ -17,11 +17,15 @@ getUsers().catch((err) => {
 });
 
 const userList = document.querySelector('.users');
-const cells = document.querySelector('.cells');
+//const cells = document.querySelector('.cells');
 
 getUsers().then((users) => {
   users.map((user) => {
-    let userDiv = document.createElement('div');
+    const userWrapper = document.createElement('div');
+    userWrapper.classList.add('users_row');
+    userList.append(userWrapper);
+
+    const userDiv = document.createElement('div');
     userDiv.classList.add('users_item');
     userDiv.setAttribute('data-user', user.id);
     userDiv.addEventListener('dragover', dragOver);
@@ -29,13 +33,20 @@ getUsers().then((users) => {
     userDiv.addEventListener('dragleave', dragLeave);
     userDiv.addEventListener('drop', dragDrop);
     userDiv.innerText = `${user.surname} ${user.firstName} ${user.secondName}`;
-    userList.append(userDiv);
-    createCell(user.id);
+    userWrapper.append(userDiv);
+
+    const cells = document.createElement('div');
+    cells.classList.add('cells');
+    cells.setAttribute('data-user', user.id);
+    userWrapper.append(cells);
+
+    createCells(user.id);
   });
 });
 
-export function createCell(id) {
+export function createCells(id) {
   const week = setWeek();
+  const cells = document.querySelector(`.cells[data-user='${id}']`);
   for (let i = 0; i < 7; i++) {
     let cell = document.createElement('div');
     cell.classList.add('cells_item');
