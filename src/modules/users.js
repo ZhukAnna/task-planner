@@ -1,20 +1,19 @@
 import { setWeek } from './timeline';
 import { dragOver, dragEnter, dragLeave, dragDrop } from './dnd.js';
 export async function getUsers() {
-  const response = await fetch(
-    'https://varankin_dev.elma365.ru/api/extensions/2a38760e-083a-4dd0-aebc-78b570bfd3c7/script/users'
-  );
-
-  if (!response.ok) {
-    throw new Error(`Can't get users from server ${response.status}`);
+  try {
+    const response = await fetch(
+      'https://varankin_dev.elma365.ru/api/extensions/2a38760e-083a-4dd0-aebc-78b570bfd3c7/script/users'
+    );
+    if (!response.ok) {
+      throw new Error(`Can't get users from server ${response.status}`);
+    }
+    const users = await response.json();
+    return users;
+  } catch (err) {
+    console.log(err.message);
   }
-
-  const users = await response.json();
-  return users;
 }
-getUsers().catch((err) => {
-  console.log(err.message);
-});
 
 const userList = document.querySelector('.users');
 
