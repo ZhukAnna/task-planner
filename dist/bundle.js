@@ -1,6 +1,32 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/css/backlog.css":
+/*!*****************************!*\
+  !*** ./src/css/backlog.css ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/css/cells.css":
+/*!***************************!*\
+  !*** ./src/css/cells.css ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./src/css/normalize.css":
 /*!*******************************!*\
   !*** ./src/css/normalize.css ***!
@@ -14,9 +40,61 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/css/preloader.css":
+/*!*******************************!*\
+  !*** ./src/css/preloader.css ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./src/css/style.css":
 /*!***************************!*\
   !*** ./src/css/style.css ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/css/task.css":
+/*!**************************!*\
+  !*** ./src/css/task.css ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/css/timeline.css":
+/*!******************************!*\
+  !*** ./src/css/timeline.css ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/css/users.css":
+/*!***************************!*\
+  !*** ./src/css/users.css ***!
   \***************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -50,23 +128,28 @@ for (let i = 1; i < 15; i++) {
 }
 
 async function getTasks() {
-  const response = await fetch(
-    'https://varankin_dev.elma365.ru/api/extensions/2a38760e-083a-4dd0-aebc-78b570bfd3c7/script/tasks'
-  );
-
-  if (!response.ok) {
-    throw new Error(`Can't get tasks from server ${response.status}`);
+  try {
+    const response = await fetch(
+      'https://varankin_dev.elma365.ru/api/extensions/2a38760e-083a-4dd0-aebc-78b570bfd3c7/script/tasks'
+    );
+    if (!response.ok) {
+      throw new Error(`Can't get tasks from server ${response.status}`);
+    }
+    const tasks = await response.json();
+    sessionStorage.setItem('tasks', JSON.stringify(tasks));
+    return tasks;
+  } catch (err) {
+    console.log(err.message);
   }
-
-  const tasks = await response.json();
-  sessionStorage.setItem('tasks', JSON.stringify(tasks));
-  return tasks;
 }
-getTasks().catch((err) => {
-  console.log(err.message);
-});
+
+if (window.matchMedia('screen and (max-width: 768px)').matches) {
+  document.querySelector('.main_wrapper').classList.add('hidden');
+}
 
 getTasks().then((tasks) => {
+  document.querySelector('.main_wrapper').classList.remove('hidden');
+  document.querySelector('.loader').classList.add('hidden');
   updateTasks(tasks);
 });
 
@@ -151,6 +234,7 @@ function dragDrop(e) {
     insertMultipleTasks(target, currentTask, false);
   } else {
     const currentUser = e.target.getAttribute('data-user');
+
     /* add executor to sessionstorage */
     const tasks = JSON.parse(sessionStorage.getItem('tasks'));
     const setUser = {
@@ -162,7 +246,7 @@ function dragDrop(e) {
       setUser
     );
     sessionStorage.setItem('tasks', JSON.stringify(tasks));
-    //
+
     const target = document.querySelectorAll(`.cells_item[data-user='${currentUser}']`);
     insertMultipleTasks(target, currentTask);
   }
@@ -177,7 +261,8 @@ function insertMultipleTasks(target, task, onUser = true) {
       target.getAttribute('data-date').replace(/(\d+)\.(\d+)\.(\d+)/g, '$3-$2-$1')
     );
     endDate = startDate + duration;
-    // set new data attributes
+
+    /* set new data attributes */
     const planStartDate = new Date(startDate)
       .toLocaleDateString()
       .replace(/(\d+)\.(\d+)\.(\d+)/g, '$3-$2-$1');
@@ -188,6 +273,7 @@ function insertMultipleTasks(target, task, onUser = true) {
     task.setAttribute('data-end', planEndDate);
     task.querySelector('.tooltip').setAttribute('data-start', planStartDate);
     task.querySelector('.tooltip').setAttribute('data-end', planEndDate);
+
     /* add dates and executor to sessionstorage */
     const executor = target.getAttribute('data-user');
     const tasks = JSON.parse(sessionStorage.getItem('tasks'));
@@ -197,14 +283,12 @@ function insertMultipleTasks(target, task, onUser = true) {
       planStartDate: planStartDate,
       planEndDate: planEndDate,
     };
-    console.log(setData);
     Object.assign(
       tasks.find((item) => item.id == setData.id),
       setData
     );
-    console.log(tasks);
     sessionStorage.setItem('tasks', JSON.stringify(tasks));
-    //
+
     target = document.querySelectorAll(`.cells_item[data-user='${executor}']`);
   }
   target.forEach((cell) => {
@@ -293,7 +377,10 @@ const setWeek = (n = 0) => {
     let day = new Date();
 
     day.setDate(currentDate.getDate() - currentDate.getDay() + i + weekNumber);
-
+    date.setAttribute(
+      'data-date',
+      day.toLocaleString('ru', { year: 'numeric', month: 'numeric', day: 'numeric' })
+    );
     week.push(day.toLocaleString('ru', { year: 'numeric', month: 'numeric', day: 'numeric' }));
 
     day = day.toLocaleString('ru', options);
@@ -301,6 +388,7 @@ const setWeek = (n = 0) => {
       ? date.classList.add('timeline_item', 'timeline_item--today')
       : date.classList.add('timeline_item');
     date.innerText = day;
+
     timeline.append(date);
   }
   return week;
@@ -310,21 +398,36 @@ prevBtn.addEventListener('click', () => {
   setWeek(-7);
   const tasks = JSON.parse(sessionStorage.getItem('tasks'));
   const users = document.querySelectorAll('.users_item');
-  document.querySelector('.cells').innerHTML = '';
+  document.querySelectorAll('.cells').forEach((i) => (i.innerHTML = ''));
   for (let i = 0; i < users.length; i++) {
-    (0,_users_js__WEBPACK_IMPORTED_MODULE_0__.createCell)(users[i].getAttribute('data-user'));
+    (0,_users_js__WEBPACK_IMPORTED_MODULE_0__.createCells)(users[i].getAttribute('data-user'));
   }
   (0,_backlog_js__WEBPACK_IMPORTED_MODULE_1__.updateTasks)(tasks);
 });
+
 nextBtn.addEventListener('click', () => {
   setWeek(7);
   const tasks = JSON.parse(sessionStorage.getItem('tasks'));
   const users = document.querySelectorAll('.users_item');
-  document.querySelector('.cells').innerHTML = '';
+  document.querySelectorAll('.cells').forEach((i) => (i.innerHTML = ''));
   for (let i = 0; i < users.length; i++) {
-    (0,_users_js__WEBPACK_IMPORTED_MODULE_0__.createCell)(users[i].getAttribute('data-user'));
+    (0,_users_js__WEBPACK_IMPORTED_MODULE_0__.createCells)(users[i].getAttribute('data-user'));
   }
   (0,_backlog_js__WEBPACK_IMPORTED_MODULE_1__.updateTasks)(tasks);
+});
+
+timeline.addEventListener('click', (event) => {
+  if (window.matchMedia('screen and (max-width: 768px)').matches) {
+    const cells = document.querySelectorAll('.cells_item');
+    const date =
+      event.target.getAttribute('data-date') || event.target[0].getAttribute('data-date');
+    cells.forEach((cell) => {
+      cell.getAttribute('data-date') != date
+        ? cell.classList.add('hidden')
+        : cell.classList.remove('hidden');
+    });
+    document.querySelector('.header_subtitle').innerText = `Задачи на ${date}:`;
+  }
 });
 
 
@@ -339,7 +442,7 @@ nextBtn.addEventListener('click', () => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createCell": () => (/* binding */ createCell),
+/* harmony export */   "createCells": () => (/* binding */ createCells),
 /* harmony export */   "getUsers": () => (/* binding */ getUsers)
 /* harmony export */ });
 /* harmony import */ var _timeline__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./timeline */ "./src/modules/timeline.js");
@@ -347,27 +450,29 @@ __webpack_require__.r(__webpack_exports__);
 
 
 async function getUsers() {
-  const response = await fetch(
-    'https://varankin_dev.elma365.ru/api/extensions/2a38760e-083a-4dd0-aebc-78b570bfd3c7/script/users'
-  );
-
-  if (!response.ok) {
-    throw new Error(`Can't get users from server ${response.status}`);
+  try {
+    const response = await fetch(
+      'https://varankin_dev.elma365.ru/api/extensions/2a38760e-083a-4dd0-aebc-78b570bfd3c7/script/users'
+    );
+    if (!response.ok) {
+      throw new Error(`Can't get users from server ${response.status}`);
+    }
+    const users = await response.json();
+    return users;
+  } catch (err) {
+    console.log(err.message);
   }
-
-  const users = await response.json();
-  return users;
 }
-getUsers().catch((err) => {
-  console.log(err.message);
-});
 
 const userList = document.querySelector('.users');
-const cells = document.querySelector('.cells');
 
 getUsers().then((users) => {
   users.map((user) => {
-    let userDiv = document.createElement('div');
+    const userWrapper = document.createElement('div');
+    userWrapper.classList.add('users_row');
+    userList.append(userWrapper);
+
+    const userDiv = document.createElement('div');
     userDiv.classList.add('users_item');
     userDiv.setAttribute('data-user', user.id);
     userDiv.addEventListener('dragover', _dnd_js__WEBPACK_IMPORTED_MODULE_1__.dragOver);
@@ -375,18 +480,31 @@ getUsers().then((users) => {
     userDiv.addEventListener('dragleave', _dnd_js__WEBPACK_IMPORTED_MODULE_1__.dragLeave);
     userDiv.addEventListener('drop', _dnd_js__WEBPACK_IMPORTED_MODULE_1__.dragDrop);
     userDiv.innerText = `${user.surname} ${user.firstName} ${user.secondName}`;
-    userList.append(userDiv);
-    createCell(user.id);
+    userWrapper.append(userDiv);
+
+    const cells = document.createElement('div');
+    cells.classList.add('cells');
+    cells.setAttribute('data-user', user.id);
+    userWrapper.append(cells);
+
+    createCells(user.id);
   });
 });
 
-function createCell(id) {
+function createCells(id) {
   const week = (0,_timeline__WEBPACK_IMPORTED_MODULE_0__.setWeek)();
+  const cells = document.querySelector(`.cells[data-user='${id}']`);
   for (let i = 0; i < 7; i++) {
     let cell = document.createElement('div');
     cell.classList.add('cells_item');
     cell.setAttribute('data-user', id);
     cell.setAttribute('data-date', week[i]);
+    if (
+      window.matchMedia('screen and (max-width: 768px)').matches &&
+      document.querySelector('.timeline_item--today')?.getAttribute('data-date') != week[i]
+    ) {
+      cell.classList.add('hidden');
+    }
     cell.addEventListener('dragover', _dnd_js__WEBPACK_IMPORTED_MODULE_1__.dragOver);
     cell.addEventListener('dragenter', _dnd_js__WEBPACK_IMPORTED_MODULE_1__.dragEnter);
     cell.addEventListener('dragleave', _dnd_js__WEBPACK_IMPORTED_MODULE_1__.dragLeave);
@@ -476,11 +594,23 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _css_normalize_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./css/normalize.css */ "./src/css/normalize.css");
 /* harmony import */ var _css_style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./css/style.css */ "./src/css/style.css");
-/* harmony import */ var _modules_users_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/users.js */ "./src/modules/users.js");
-/* harmony import */ var _modules_timeline_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/timeline.js */ "./src/modules/timeline.js");
-/* harmony import */ var _modules_backlog_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/backlog.js */ "./src/modules/backlog.js");
-/* harmony import */ var _modules_theme_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/theme.js */ "./src/modules/theme.js");
-/* harmony import */ var _modules_theme_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_modules_theme_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _css_timeline_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./css/timeline.css */ "./src/css/timeline.css");
+/* harmony import */ var _css_users_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./css/users.css */ "./src/css/users.css");
+/* harmony import */ var _css_cells_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./css/cells.css */ "./src/css/cells.css");
+/* harmony import */ var _css_backlog_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./css/backlog.css */ "./src/css/backlog.css");
+/* harmony import */ var _css_task_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./css/task.css */ "./src/css/task.css");
+/* harmony import */ var _css_preloader_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./css/preloader.css */ "./src/css/preloader.css");
+/* harmony import */ var _modules_users_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/users.js */ "./src/modules/users.js");
+/* harmony import */ var _modules_timeline_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/timeline.js */ "./src/modules/timeline.js");
+/* harmony import */ var _modules_backlog_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/backlog.js */ "./src/modules/backlog.js");
+/* harmony import */ var _modules_theme_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modules/theme.js */ "./src/modules/theme.js");
+/* harmony import */ var _modules_theme_js__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_modules_theme_js__WEBPACK_IMPORTED_MODULE_11__);
+
+
+
+
+
+
 
 
 
