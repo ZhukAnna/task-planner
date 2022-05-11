@@ -9,6 +9,13 @@
   font-size: 12px;
   background: var(--primary-color);
 }
+@media (max-width: 768px) {
+  .task {
+    height: 40px;
+    font-size: 14px;
+    border-radius: 5px;
+  }
+}
 
 .task:hover {
   color: var(--primary-color);

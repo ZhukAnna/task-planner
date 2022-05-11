@@ -9,6 +9,11 @@
     grid-template-columns: 30px 1fr 30px;
   }
 }
+@media (max-width: 768px) {
+  .timeline {
+    padding: 15px 0;
+  }
+}
 
 .timeline_btn {
   background: none;
@@ -29,11 +34,37 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
 }
+@media (max-width: 768px) {
+  .timeline_wrapper {
+    overflow: auto;
+    white-space: nowrap;
+  }
+  .timeline_wrapper::before {
+    content: '';
+    width: 20px;
+    height: 38px;
+    position: absolute;
+    background: linear-gradient(to right, rgb(19, 24, 39), rgba(0, 0, 0, 0) 80%);
+  }
+  .timeline_wrapper::after {
+    content: '';
+    width: 20px;
+    height: 38px;
+    position: absolute;
+    right: 30px;
+    background: linear-gradient(to left, rgb(19, 24, 39), rgba(0, 0, 0, 0) 80%);
+  }
+}
 
 .timeline_item {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+@media (max-width: 768px) {
+  .timeline_item {
+    padding: 10px;
+  }
 }
 
 .timeline_item:hover {

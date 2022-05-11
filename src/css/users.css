@@ -11,10 +11,14 @@
   grid-template-columns: 15% 1fr 20%;
   grid-template-areas: 'users cells';
 }
-
 @media (max-width: 992px) {
   .users_row {
     grid-template-columns: 20% 1fr;
+  }
+}
+@media (max-width: 768px) {
+  .users_row {
+    grid-template-columns: 40% 1fr;
   }
 }
 
@@ -26,6 +30,13 @@
   min-height: 90px;
   padding: 11px;
   background: var(--light-bg-color);
+}
+@media (max-width: 768px) {
+  .users_item {
+    height: 60px;
+    margin-left: 10px;
+    border-radius: 10px;
+  }
 }
 
 .users_item:hover {

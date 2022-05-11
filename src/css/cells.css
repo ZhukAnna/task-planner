@@ -10,6 +10,13 @@
     padding: 0 30px;
   }
 }
+@media (max-width: 768px) {
+  .cells {
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+  }
+}
 
 .cells_item {
   display: flex;
@@ -20,6 +27,13 @@
   border-right: 1px solid var(--hover-bg-color);
   background: var(--cell-color);
   word-break: break-word;
+}
+@media (max-width: 768px) {
+  .cells_item {
+    padding: 0;
+    row-gap: 2px;
+    border: none;
+  }
 }
 
 .cells_item:hover {
