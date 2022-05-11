@@ -1,0 +1,35 @@
+/* TASK */
+
+.task {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 6px;
+  font-size: 12px;
+  background: var(--primary-color);
+}
+
+.task:hover {
+  color: var(--primary-color);
+  background: var(--main-bg-color);
+  border: 1px solid var(--primary-color);
+  cursor: pointer;
+}
+
+.task--done {
+  background: var(--green-color);
+}
+
+.task--inprocess {
+  background: var(--orange-color);
+}
+
+.task--urgent {
+  background: var(--red-color);
+}
+
+.task--failed {
+  color: #adadad;
+  background: #e7e7e7;
+}

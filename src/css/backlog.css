@@ -1,0 +1,106 @@
+/* BACKLOG */
+
+.backlog {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20%;
+  height: 100vh;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  background: var(--light-bg-color);
+  overflow: hidden;
+}
+@media (max-width: 992px) {
+  .backlog {
+    display: none;
+  }
+}
+
+.backlog_search {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+
+.backlog_task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  overflow: auto;
+}
+
+.backlog_task-list::-webkit-scrollbar {
+  width: 10px;
+  background-color: var(--light-bg-color);
+}
+.backlog_task-list::-webkit-scrollbar-thumb {
+  width: 10px;
+  background: var(--hover-bg-color);
+}
+
+.backlog_task {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 12px;
+  background: var(--main-bg-color);
+  cursor: grab;
+}
+
+.backlog_task:hover {
+  background: var(--hover-bg-color);
+}
+
+.tooltip {
+  display: none;
+  position: absolute;
+  top: 35px;
+  width: 165px;
+  height: 30px;
+  padding: 5px;
+  color: var(--text-color);
+  background: var(--main-bg-color);
+  font-size: 11px;
+  border: 1px solid var(--light-bg-color);
+  opacity: 0;
+  z-index: 50;
+}
+.tooltip::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 100px;
+  transform: translateY(-50%);
+  border: 10px solid var(--main-bg-color);
+  border-color: transparent transparent var(--main-bg-color) transparent;
+  opacity: 0;
+  z-index: 55;
+}
+.backlog_task:hover .tooltip {
+  display: block;
+  opacity: 1;
+  transition: opacity 0.3s ease 1s;
+}
+
+.tooltip::before {
+  content: '';
+  opacity: 1;
+  transition: opacity 0.3s ease 1s;
+}
+
+.tooltip::after {
+  content: 'дата начала: ' attr(data-start) ' дата окончания: ' attr(data-end);
+  position: absolute;
+  z-index: 55;
+}
+
+.backlog_task:hover.backlog_task--selected .tooltip {
+  display: none;
+}
+
+.backlog_task--selected {
+  opacity: 0.5;
+}

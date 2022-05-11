@@ -1,0 +1,46 @@
+/* TIMELINE */
+
+.timeline {
+  display: grid;
+  grid-template-columns: 50px 1fr 50px;
+}
+@media (max-width: 992px) {
+  .timeline {
+    grid-template-columns: 30px 1fr 30px;
+  }
+}
+
+.timeline_btn {
+  background: none;
+  color: var(--primary-color);
+  border: none;
+  cursor: pointer;
+}
+.timeline_btn:hover {
+  background: var(--dark-bg-color);
+}
+
+.timeline_btn:hover svg path {
+  stroke: var(--text-color);
+  stroke-width: 2;
+}
+
+.timeline_wrapper {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.timeline_item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timeline_item:hover {
+  background: var(--hover-bg-color);
+}
+
+.timeline_item--today {
+  color: var(--primary-color);
+  background: var(--light-bg-color);
+}

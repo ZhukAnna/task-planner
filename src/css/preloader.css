@@ -1,0 +1,33 @@
+/* PRELOADER */
+
+.preloader {
+  min-height: 42px;
+  background-color: var(--main-bg-color);
+}
+
+@keyframes preloaderAnimation {
+  0% {
+    background-position: -500px 0;
+  }
+  100% {
+    background-position: 500px 0;
+  }
+}
+
+.animated-background {
+  animation-duration: 1.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: preloaderAnimation;
+  animation-timing-function: linear;
+  background: var(--hover-bg-color);
+  background: linear-gradient(
+    to right,
+    var(--main-bg-color) 0%,
+    var(--hover-bg-color) 16%,
+    var(--main-bg-color) 33%
+  );
+  background-size: 1000px 80px;
+  height: 42px;
+  position: relative;
+}
