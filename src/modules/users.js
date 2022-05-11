@@ -17,7 +17,6 @@ getUsers().catch((err) => {
 });
 
 const userList = document.querySelector('.users');
-//const cells = document.querySelector('.cells');
 
 getUsers().then((users) => {
   users.map((user) => {
@@ -52,6 +51,12 @@ export function createCells(id) {
     cell.classList.add('cells_item');
     cell.setAttribute('data-user', id);
     cell.setAttribute('data-date', week[i]);
+    if (
+      window.matchMedia('screen and (max-width: 768px)').matches &&
+      document.querySelector('.timeline_item--today')?.getAttribute('data-date') != week[i]
+    ) {
+      cell.classList.add('hidden');
+    }
     cell.addEventListener('dragover', dragOver);
     cell.addEventListener('dragenter', dragEnter);
     cell.addEventListener('dragleave', dragLeave);

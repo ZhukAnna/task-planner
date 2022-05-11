@@ -20,7 +20,10 @@ export const setWeek = (n = 0) => {
     let day = new Date();
 
     day.setDate(currentDate.getDate() - currentDate.getDay() + i + weekNumber);
-
+    date.setAttribute(
+      'data-date',
+      day.toLocaleString('ru', { year: 'numeric', month: 'numeric', day: 'numeric' })
+    );
     week.push(day.toLocaleString('ru', { year: 'numeric', month: 'numeric', day: 'numeric' }));
 
     day = day.toLocaleString('ru', options);
@@ -28,6 +31,7 @@ export const setWeek = (n = 0) => {
       ? date.classList.add('timeline_item', 'timeline_item--today')
       : date.classList.add('timeline_item');
     date.innerText = day;
+
     timeline.append(date);
   }
   return week;
@@ -43,6 +47,7 @@ prevBtn.addEventListener('click', () => {
   }
   updateTasks(tasks);
 });
+
 nextBtn.addEventListener('click', () => {
   setWeek(7);
   const tasks = JSON.parse(sessionStorage.getItem('tasks'));
@@ -52,4 +57,18 @@ nextBtn.addEventListener('click', () => {
     createCells(users[i].getAttribute('data-user'));
   }
   updateTasks(tasks);
+});
+
+timeline.addEventListener('click', (event) => {
+  if (window.matchMedia('screen and (max-width: 768px)').matches) {
+    const cells = document.querySelectorAll('.cells_item');
+    const date =
+      event.target.getAttribute('data-date') || event.target[0].getAttribute('data-date');
+    cells.forEach((cell) => {
+      cell.getAttribute('data-date') != date
+        ? cell.classList.add('hidden')
+        : cell.classList.remove('hidden');
+    });
+    document.querySelector('.header_subtitle').innerText = `Задачи на ${date}:`;
+  }
 });

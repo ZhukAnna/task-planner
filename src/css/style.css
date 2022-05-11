@@ -40,6 +40,18 @@ body {
   padding: 0 20px;
   font-size: 1.2em;
 }
+.header_subtitle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  font-size: 14px;
+}
+@media (max-width: 768px) {
+  .header_subtitle {
+    display: flex;
+  }
+}
 
 .main {
   height: calc(100vh - 80px);
@@ -125,4 +137,8 @@ body {
   .theme-switcher {
     display: none;
   }
+}
+
+.hidden {
+  display: none !important;
 }
