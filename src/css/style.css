@@ -69,6 +69,16 @@ body {
   width: 0;
 }
 
+.loader {
+  display: none;
+  /* background-image: url(loader.svg); */
+}
+@media (max-width: 768px) {
+  .loader {
+    display: block;
+  }
+}
+
 .text-input {
   height: 32px;
   width: 100%;

@@ -24,7 +24,13 @@ async function getTasks() {
   }
 }
 
+if (window.matchMedia('screen and (max-width: 768px)').matches) {
+  document.querySelector('.main_wrapper').classList.add('hidden');
+}
+
 getTasks().then((tasks) => {
+  document.querySelector('.main_wrapper').classList.remove('hidden');
+  document.querySelector('.loader').classList.add('hidden');
   updateTasks(tasks);
 });
 
