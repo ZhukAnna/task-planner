@@ -1,6 +1,7 @@
 import { dragStart, dragEnd, insertMultipleTasks } from './dnd.js';
 
 const backlogContainer = document.querySelector('.backlog_task-list');
+const backlogSearch = document.querySelector('.backlog_search');
 const preloader = document.createElement('div');
 preloader.classList.add('preloader');
 preloader.innerHTML = '<div class="animated-background"></div>';
@@ -58,3 +59,26 @@ export function updateTasks(tasks) {
     }
   });
 }
+
+backlogSearch.addEventListener('submit', (ev) => {
+  ev.preventDefault();
+  const input = backlogSearch.querySelector('input');
+  const btn = backlogSearch.querySelector('button');
+  let tasks = backlogContainer.querySelectorAll('.backlog_task');
+
+  if (btn.innerText == 'Reset') {
+      btn.innerText = 'Search';
+      input.value = '';
+      tasks.forEach((task) => task.classList.remove('hidden'));
+    }
+    
+  if (input.value) { 
+      btn.innerText = 'Reset';
+      tasks.forEach((task) => {
+        if (!task.innerText.toLowerCase().match(input.value.toLowerCase().trim())) {
+          task.classList.add('hidden');
+        }
+      });
+
+  } 
+});
