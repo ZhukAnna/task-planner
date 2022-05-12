@@ -27,11 +27,9 @@ export function dragDrop(e) {
   e.target.classList.remove('cells_item--target');
   currentTask.classList.add('task');
   if (e.target.classList.contains('cells_item')) {
-    const target = e.target;
-    insertMultipleTasks(target, currentTask, false);
+    insertMultipleTasks(e.target, currentTask, false);
   } else if (e.target.classList.contains('task')) {
-    const target = e.target.parentElement;
-    insertMultipleTasks(target, currentTask, false);
+    insertMultipleTasks(e.target.parentElement, currentTask, false);
   } else {
     const currentUser = e.target.getAttribute('data-user');
 
@@ -91,6 +89,7 @@ export function insertMultipleTasks(target, task, onUser = true) {
 
     target = document.querySelectorAll(`.cells_item[data-user='${executor}']`);
   }
+   let counter = 0;
   target.forEach((cell) => {
     const dateFromAttr = Date.parse(
       cell.getAttribute('data-date').replace(/(\d+)\.(\d+)\.(\d+)/g, '$3-$2-$1')
@@ -101,6 +100,9 @@ export function insertMultipleTasks(target, task, onUser = true) {
       taskClone.draggable = false;
       cell.append(taskClone);
       task.remove();
+    } else {
+      counter++;
+      if (counter == target.length) task.remove();
     }
   });
 }
