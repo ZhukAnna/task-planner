@@ -120,6 +120,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const backlogContainer = document.querySelector('.backlog_task-list');
+const backlogSearch = document.querySelector('.backlog_search');
 const preloader = document.createElement('div');
 preloader.classList.add('preloader');
 preloader.innerHTML = '<div class="animated-background"></div>';
@@ -178,6 +179,29 @@ function updateTasks(tasks) {
   });
 }
 
+backlogSearch.addEventListener('submit', (ev) => {
+  ev.preventDefault();
+  const input = backlogSearch.querySelector('input');
+  const btn = backlogSearch.querySelector('button');
+  let tasks = backlogContainer.querySelectorAll('.backlog_task');
+
+  if (btn.innerText == 'Reset') {
+      btn.innerText = 'Search';
+      input.value = '';
+      tasks.forEach((task) => task.classList.remove('hidden'));
+    }
+    
+  if (input.value) { 
+      btn.innerText = 'Reset';
+      tasks.forEach((task) => {
+        if (!task.innerText.toLowerCase().match(input.value.toLowerCase().trim())) {
+          task.classList.add('hidden');
+        }
+      });
+
+  } 
+});
+
 
 /***/ }),
 
@@ -227,11 +251,9 @@ function dragDrop(e) {
   e.target.classList.remove('cells_item--target');
   currentTask.classList.add('task');
   if (e.target.classList.contains('cells_item')) {
-    const target = e.target;
-    insertMultipleTasks(target, currentTask, false);
+    insertMultipleTasks(e.target, currentTask, false);
   } else if (e.target.classList.contains('task')) {
-    const target = e.target.parentElement;
-    insertMultipleTasks(target, currentTask, false);
+    insertMultipleTasks(e.target.parentElement, currentTask, false);
   } else {
     const currentUser = e.target.getAttribute('data-user');
 
@@ -291,6 +313,7 @@ function insertMultipleTasks(target, task, onUser = true) {
 
     target = document.querySelectorAll(`.cells_item[data-user='${executor}']`);
   }
+   let counter = 0;
   target.forEach((cell) => {
     const dateFromAttr = Date.parse(
       cell.getAttribute('data-date').replace(/(\d+)\.(\d+)\.(\d+)/g, '$3-$2-$1')
@@ -301,6 +324,9 @@ function insertMultipleTasks(target, task, onUser = true) {
       taskClone.draggable = false;
       cell.append(taskClone);
       task.remove();
+    } else {
+      counter++;
+      if (counter == target.length) task.remove();
     }
   });
 }
@@ -470,15 +496,15 @@ getUsers().then((users) => {
   users.map((user) => {
     const userWrapper = document.createElement('div');
     userWrapper.classList.add('users_row');
+    userWrapper.addEventListener('dragover', _dnd_js__WEBPACK_IMPORTED_MODULE_1__.dragOver);
+    userWrapper.addEventListener('dragenter', _dnd_js__WEBPACK_IMPORTED_MODULE_1__.dragEnter);
+    userWrapper.addEventListener('dragleave', _dnd_js__WEBPACK_IMPORTED_MODULE_1__.dragLeave);
+    userWrapper.addEventListener('drop', _dnd_js__WEBPACK_IMPORTED_MODULE_1__.dragDrop);
     userList.append(userWrapper);
 
     const userDiv = document.createElement('div');
     userDiv.classList.add('users_item');
     userDiv.setAttribute('data-user', user.id);
-    userDiv.addEventListener('dragover', _dnd_js__WEBPACK_IMPORTED_MODULE_1__.dragOver);
-    userDiv.addEventListener('dragenter', _dnd_js__WEBPACK_IMPORTED_MODULE_1__.dragEnter);
-    userDiv.addEventListener('dragleave', _dnd_js__WEBPACK_IMPORTED_MODULE_1__.dragLeave);
-    userDiv.addEventListener('drop', _dnd_js__WEBPACK_IMPORTED_MODULE_1__.dragDrop);
     userDiv.innerText = `${user.surname} ${user.firstName} ${user.secondName}`;
     userWrapper.append(userDiv);
 
@@ -505,10 +531,6 @@ function createCells(id) {
     ) {
       cell.classList.add('hidden');
     }
-    cell.addEventListener('dragover', _dnd_js__WEBPACK_IMPORTED_MODULE_1__.dragOver);
-    cell.addEventListener('dragenter', _dnd_js__WEBPACK_IMPORTED_MODULE_1__.dragEnter);
-    cell.addEventListener('dragleave', _dnd_js__WEBPACK_IMPORTED_MODULE_1__.dragLeave);
-    cell.addEventListener('drop', _dnd_js__WEBPACK_IMPORTED_MODULE_1__.dragDrop);
     cells.append(cell);
   }
 }
